@@ -1,0 +1,90 @@
+{
+  parserClass="io.github.facilityapi.intellij.parser.FsdParser"
+
+  psiClassPrefix="Fsd"
+  psiImplClassSuffix="Impl"
+  psiPackage="io.github.facilityapi.intellij.psi"
+  psiImplPackage="io.github.facilityapi.intellij.psi.impl"
+  psiImplUtilClass="io.github.facilityapi.intellij.psi.FsdPsiImplUtil"
+
+  elementTypeHolderClass="io.github.facilityapi.intellij.psi.FsdTypes"
+  elementTypePrefix=""
+  elementTypeClass="io.github.facilityapi.intellij.psi.FsdElementType"
+  tokenTypeClass="io.github.facilityapi.intellij.psi.FsdElementType"
+
+  tokens = [
+    LEFT_PAREN='('
+    RIGHT_PAREN=')'
+    LEFT_BRACE='{'
+    RIGHT_BRACE='}'
+    LEFT_BRACKET='['
+    RIGHT_BRACKET=']'
+    LEFT_ANGLE='<'
+    RIGHT_ANGLE='>'
+    COMMA=','
+    SEMI=';'
+    COLON=':'
+    BANG='!'
+
+    comment='regexp://[^\r\n]*'
+    space='regexp:\s+'
+    identifier='regexp:\w+'
+    typename='regexp:\w+'
+    attributename='regexp:\w+'
+    attributeparametervalue='regexp:"(([^"\\]+|\\["\\/bfnrt]|\\u[0-9a-fA-f]{4})*)"|([0-9a-zA-Z.+_-]+)'
+    number='regexp:[0-9]+(\.[0-9]*)?'
+    markdownheading='regexp:#[^\r\n]*'
+    markdowntext='regexp:.+'
+  ]
+
+  implements("decorated_.*")="io.github.facilityapi.intellij.psi.FsdDecoratedElement"
+}
+
+definition ::= (attribute_list* service_spec) markdown_remarks*
+
+service_spec ::= service identifier service_items { pin=1 }
+service_items ::= ('{' decorated_service_item* '}') | decorated_service_item
+decorated_service_item ::= attribute_list* service_item
+private service_item ::=  (enum_spec | data_spec | method_spec | error_set_spec) { recoverWhile=service_item_recover }
+private service_item_recover ::= !('[' | '}' | enum | data | errors | method)
+
+private field_list ::= '{' (comment+ | decorated_field)* '}' { pin=1 }
+
+request_fields ::= field_list
+response_fields ::= field_list
+method_spec ::= method identifier_declaration request_fields ':' response_fields { pin=1 }
+
+data_spec ::= data identifier_declaration field_list { pin=1 }
+
+enum_spec ::= enum identifier_declaration enum_value_list { pin=1 }
+enum_value_list ::= '{' [ decorated_enum_value (',' (decorated_enum_value | &'}'))* ] '}' { pin(".*")=1 }
+decorated_enum_value ::= (comment+ | attribute_list* enum_value)
+enum_value ::= identifier
+
+error_set_spec ::=  errors identifier_declaration error_list { pin=1 }
+error_list ::= '{' [ decorated_error_spec (',' (decorated_error_spec | &'}'))* ] '}' { pin(".*")=1 }
+decorated_error_spec ::= (comment+ | attribute_list* error_spec)
+error_spec ::= identifier
+
+identifier_declaration ::= identifier
+{
+  mixin="io.github.facilityapi.intellij.psi.FsdNamedElementImpl"
+  implements="io.github.facilityapi.intellij.psi.FsdNamedElement"
+  methods=[getName setName getNameIdentifier getPresentation]
+}
+
+attribute_list ::= '[' attribute (',' attribute)* ']'
+attribute ::= attributename [ attribute_parameters ]
+attribute_parameters ::= '(' attribute_parameter (',' attribute_parameter)* ')'
+attribute_parameter ::= identifier ':' attribute_parameter_value
+private attribute_parameter_value ::= attributeparametervalue { name="attribute parameter value" }
+
+decorated_field ::= attribute_list* field { pin=2 }
+field ::= identifier ':' type [ '!' ] ';' { pin=3 }
+type ::= (string | boolean | int32 | int64 | double | decimal | bytes | object | map | result | error | nullable | reference_type) [ type_parameter ] [ ('['']')* ]
+type_parameter ::= '<' type '>' { pin=2 }
+reference_type ::= typename
+{
+  methods=[getReference]
+}
+markdown_remarks ::= markdownheading | markdowntext

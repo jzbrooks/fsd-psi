@@ -1,0 +1,16 @@
+[versions]
+# 2021.2.1, matching grammarkit version
+ideaVersion = "213.6777.52"
+kotlin = "1.7.20"
+
+[libraries]
+intellijCore = { module = "com.jetbrains.intellij.platform:core-impl", version.ref = "ideaVersion" }
+intellijLang = { module = "com.jetbrains.intellij.platform:lang-impl", version.ref = "ideaVersion" }
+junit = "junit:junit:4.13.2"
+
+[plugins]
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+grammarKit = { id = "org.jetbrains.grammarkit", version = "2021.2.2" }
+spotless = { id = "com.diffplug.spotless", version = "6.11.0" }
+mavenPublish = { id = "com.vanniktech.maven.publish", version = "0.22.0" }
+intellij = { id = "org.jetbrains.intellij", version = "1.9.0" }
