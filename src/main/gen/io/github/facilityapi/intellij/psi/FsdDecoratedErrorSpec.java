@@ -2,8 +2,9 @@
 package io.github.facilityapi.intellij.psi;
 
 import java.util.List;
+
+import io.github.facilityapi.psi.FsdDecoratedElement;
 import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
 
 public interface FsdDecoratedErrorSpec extends FsdDecoratedElement {
 

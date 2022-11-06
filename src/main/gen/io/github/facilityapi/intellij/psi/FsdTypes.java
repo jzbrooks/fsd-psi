@@ -5,6 +5,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.PsiElement;
 import com.intellij.lang.ASTNode;
 import io.github.facilityapi.intellij.psi.impl.*;
+import io.github.facilityapi.psi.FsdElementType;
 
 public interface FsdTypes {
 

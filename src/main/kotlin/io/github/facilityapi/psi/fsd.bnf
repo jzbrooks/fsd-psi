@@ -5,12 +5,12 @@
   psiImplClassSuffix="Impl"
   psiPackage="io.github.facilityapi.intellij.psi"
   psiImplPackage="io.github.facilityapi.intellij.psi.impl"
-  psiImplUtilClass="io.github.facilityapi.intellij.psi.FsdPsiImplUtil"
+  psiImplUtilClass="io.github.facilityapi.psi.FsdPsiImplUtil"
 
   elementTypeHolderClass="io.github.facilityapi.intellij.psi.FsdTypes"
   elementTypePrefix=""
-  elementTypeClass="io.github.facilityapi.intellij.psi.FsdElementType"
-  tokenTypeClass="io.github.facilityapi.intellij.psi.FsdElementType"
+  elementTypeClass="io.github.facilityapi.psi.FsdElementType"
+  tokenTypeClass="io.github.facilityapi.psi.FsdElementType"
 
   tokens = [
     LEFT_PAREN='('
@@ -37,7 +37,7 @@
     markdowntext='regexp:.+'
   ]
 
-  implements("decorated_.*")="io.github.facilityapi.intellij.psi.FsdDecoratedElement"
+  implements("decorated_.*")="io.github.facilityapi.psi.FsdDecoratedElement"
 }
 
 definition ::= (attribute_list* service_spec) markdown_remarks*
@@ -68,8 +68,8 @@ error_spec ::= identifier
 
 identifier_declaration ::= identifier
 {
-  mixin="io.github.facilityapi.intellij.psi.FsdNamedElementImpl"
-  implements="io.github.facilityapi.intellij.psi.FsdNamedElement"
+  mixin="io.github.facilityapi.psi.FsdNamedElementImpl"
+  implements="io.github.facilityapi.psi.FsdNamedElement"
   methods=[getName setName getNameIdentifier getPresentation]
 }
 

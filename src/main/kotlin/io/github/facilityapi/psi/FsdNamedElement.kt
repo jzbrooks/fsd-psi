@@ -1,4 +1,4 @@
-package io.github.facilityapi.intellij.psi
+package io.github.facilityapi.psi
 
 import com.intellij.psi.PsiNameIdentifierOwner
 

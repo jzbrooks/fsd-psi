@@ -1,14 +1,14 @@
 // This is a generated file. Not intended for manual editing.
 package io.github.facilityapi.intellij.psi.impl;
 
-import java.util.List;
+import io.github.facilityapi.psi.FsdPsiImplUtil;
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.util.PsiTreeUtil;
+
 import static io.github.facilityapi.intellij.psi.FsdTypes.*;
-import io.github.facilityapi.intellij.psi.FsdNamedElementImpl;
+import io.github.facilityapi.psi.FsdNamedElementImpl;
 import io.github.facilityapi.intellij.psi.*;
 import com.intellij.navigation.ItemPresentation;
 

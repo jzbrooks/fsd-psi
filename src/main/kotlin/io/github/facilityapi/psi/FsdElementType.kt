@@ -1,6 +1,11 @@
-package io.github.facilityapi.intellij.psi
+package io.github.facilityapi.psi
 
+import com.intellij.lang.Language
 import com.intellij.psi.tree.IElementType
-import io.github.facilityapi.intellij.FsdLanguage
 
-class FsdElementType(name: String) : IElementType(name, FsdLanguage)
+class FsdElementType(name: String) : IElementType(name, language) {
+    companion object {
+        /** Required to be set at runtime so that elements are correctly assigned */
+        var language: Language = Language.ANY
+    }
+}
